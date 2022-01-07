@@ -1,0 +1,13 @@
+.step {
+    height: 15px;
+    width: 15px;
+    margin: 0 2px;
+    background-color: #a8a7a7;
+    border: none;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  
+  .step.finish {
+    background-color: #00bdb0;
+  }

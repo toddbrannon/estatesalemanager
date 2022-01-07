@@ -1,0 +1,183 @@
+<%- include('partials/header', {style:'/css/invoice.css', username: authUser.name}) -%>
+
+	<div id="invoice" class="container bootstrap snippets bootdey">
+		<nav aria-label="breadcrumb" class="no-printable">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="/sale/<%= locals.invoice.saleId %>">Back</a></li>
+			</ol>
+		</nav>
+
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<div style="display:flex;align-items:flex-end;justify-content: space-between;">
+					<img id="invoice-logo" src="/img/TLH logo invoice.png"/>
+					<h5>ESTATE SALE FINAL INVOICE</h5>
+				</div>
+				<hr />
+				<h4 style="text-align: center;"><strong><%= locals.invoice.jobName%></strong></h4>
+				<div style="display:flex;justify-content: space-between;">
+					<div>
+						<h4><strong>Client</strong> Details</h4>
+						<ul class="list-unstyled">
+							<li><strong>Name:</strong>
+								<%= locals.invoice.clientName%>
+							</li>
+							<li><strong>E-mail:</strong>
+								<%= locals.invoice.clientEmail%>
+							</li>
+							<li><strong>Mailing Address:</strong>
+								<%= locals.invoice.MailingAddress %>
+							</li>
+						</ul>
+					</div>
+
+					<div>
+						<h4><strong>Payment</strong> Details</h4>
+						<ul class="list-unstyled">
+							<li><strong>Sale Date:</strong>
+								<%= locals.invoice.saleDate%>
+							</li>
+							<li><strong>Payment Due:</strong>
+								<%= locals.invoice.paymentDueDate%>
+							</li>
+							<li><strong>Check Payable to:</strong>
+								<%= locals.invoice.checkPayableTo%>
+							</li>
+						</ul>
+
+					</div>
+
+				</div>
+				<hr style="margin: 0;" />
+				<div class="table-responsive">
+					<table class="table table-condensed nomargin">
+						<tbody>
+							<tr>
+								<td><strong>Gross Proceeds</strong></td>
+								<td>
+									<% locals.invoice.grossProceeds%>
+								</td>
+							</tr>
+							<tr>
+								<td>True Legacy Fee-Minimum</td>
+								<td>
+									<%= locals.invoice.trueLegacyFeeMinimum%>
+								</td>
+							</tr>
+							<tr>
+								<td>True Legacy-Fee %</td>
+								<td>
+									<%= locals.invoice.trueLegacyFee%>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>Total True Legacy-Fee</strong></td>
+								<td>
+									<%= locals.invoice.totalTrueLegacyFee%>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>Net Share to Client</strong></td>
+								<td>
+									<%= locals.invoice.netShareToClient%>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>Disposal</strong></td>
+								<td>
+									<%= locals.invoice.disposal%>
+								</td>
+							</tr>
+							<tr>
+								<td><strong>TOTAL AMOUNT DUE</strong></td>
+								<td>
+									<%= locals.invoice.totalAmountDue%>
+								</td>
+							</tr>
+
+						</tbody>
+					</table>
+				</div>
+
+				<div class="table-responsive">
+					<table class="table table-condensed nomargin">
+						<thead>
+							<tr>
+								<th>Sale Stats</th>
+								<th>Gross Sales</th>
+								<th># of Transactions</th>
+								<th>Ave Purchase Amount</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Opening Day 8am to 10am</td>
+								<td>
+									<%= locals.invoice.grossSales8To10%>
+								</td>
+								<td>
+									<%= locals.invoice.transactions8To10%>
+								</td>
+								<td>
+									<%= locals.invoice.avePurchaseAmount8To10%>
+								</td>
+							</tr>
+							<tr>
+								<td>Opening Day</td>
+								<td>
+									<%= locals.invoice.grossSalesOpeningDay%>
+								</td>
+								<td>
+									<%= locals.invoice.transactionsOpeningDay%>
+								</td>
+								<td>
+									<%= locals.invoice.avePurchaseAmountOpeningDay%>
+								</td>
+							</tr>
+							<tr>
+								<td>Entire Sale</td>
+								<td>
+									<%= locals.invoice.grossSalesEntireSale %>
+								</td>
+								<td>
+									<%= locals.invoice.transactionTotal%>
+								</td>
+								<td>
+									<%= locals.invoice.avePurchaseAmountEntireSale%>
+								</td>
+							</tr>
+
+						</tbody>
+					</table>
+				</div>
+
+				<div class="row">
+					<div class="col-md-6 col-sm-6 text-left">
+						<ul class="list-unstyled">
+							<li><strong>Ad Views:</strong>
+								<%= locals.invoice.adView%>
+							</li>
+							<li><strong>E-mail Sent:</strong>
+								<%= locals.invoice.emailsSent%>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="panel panel-default text-right no-printable">
+					<div class="panel-body">
+						<button id="printBtn" class="btn btn-success btn-lg btn-block" type="button"><i
+								class="bi bi-printer"></i> PRINT INVOICE</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script>
+			document.querySelector('#printBtn').addEventListener('click', () => {
+				document.querySelectorAll('.no-printable').forEach(e=>e.style.display = 'none');
+				window.print();
+				setTimeout(() => {
+					document.querySelectorAll('.no-printable').forEach(e=>e.style.display = 'block');
+				}, 500);
+			})
+		</script>

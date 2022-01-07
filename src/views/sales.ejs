@@ -1,0 +1,66 @@
+<%- include ('partials/header', {style:"/css/sales.css",username: authUser.name}) -%>
+
+  <div class="container logo-container py-5 d-flex justify-content-center">
+    <img src="../img/TLH logo.png" class="logo-image" alt="True Legacy Homes" width="500" height="175">
+  </div>
+
+  <div class="container container-header">
+    <!-- <header class="jumbotron"> -->
+    <div class="container py-5">
+      <!-- <h1 class="display-4">True Legacy Homes Sale Manager</h1> -->
+      <div class="text-center">
+        <h1 class="display-6 mb-2">Existing Sales</h1>
+      </div>
+
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/">Back</a></li>
+        </ol>
+      </nav>
+
+      <!-- View Sales -->
+      <table class="table table-striped table-bordered table-expandable mydatatable" style="width: 100%;">
+        <thead>
+          <tr>
+            <th scope="col">Job Name</th>
+            <th scope="col">Market</th>
+            <th scope="col">Sale Date</th>
+            <th scope="col">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% saleresults.forEach(function(saleresult, i) { %>
+            <tr class='clickable-row' style="cursor:pointer;" data-href="/sale/<%= saleresult._id %>">
+              <td>
+                <%= saleresult.jobName %>
+              </td>
+              <td>
+                <%= saleresult.market %>
+              </td>
+              <td>
+                <%= saleresult.saleDate %>
+              </td>
+              <td>
+                <div style="display:flex;flex-direction:column;align-items:center;margin-top:10px;">
+                  <div>
+                    <% for(let s=0; s < sectioncount; ++s){ %>
+                      <span class='step <%= locals.salestatuses[i].index > s || !locals.salestatuses[i].reason ? ' finish': '' %>'>
+                      </span>
+                      <% } %>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <% }); %>
+        </tbody>
+      </table>
+      <!-- <%= JSON.stringify(locals.salestatuses) %> -->
+      <script>
+        $(".clickable-row").click(function () {
+          window.location = $(this).data("href");
+        });
+      </script>
+    </div>
+  </div>
+
+  <%- include ('partials/footer') -%>

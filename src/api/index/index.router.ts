@@ -316,6 +316,31 @@ class IndexRouter {
       }
     })
 
+    this.router.get('/admin', requiresAuth(), async (req, res) => {
+      try {
+        let sql = `SELECT * from market;` 
+        // SELECT * from service; SELECT * from cashier; 
+        // SELECT * from salesPerson; SELECT * from pos_id; SELECT * from trailer_number; 
+        // SELECT * from opening_day; SELECT * from state;`;
+        pool.query(sql, (err, rows, results) => {
+          // console.log(rows);
+          if (err)
+            throw err;
+          res.render('admin/dropdowns', {
+            title: 'Admin Config',
+            authUser: req['oidc'].user,
+            marketArray: rows,
+          });
+        })
+
+      } catch (err) {
+        console.log("Failed to insert data into input table")
+        console.log(err)
+        res.sendStatus(500)
+        return
+      }
+    })
+
     return this.router;
   }
 }

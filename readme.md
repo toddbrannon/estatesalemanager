@@ -25,3 +25,8 @@ AUTH0_SECRET=
 AUTH0_BASEURL=  
 AUTH0_CLIENTID=  
 AUTH0_ISSUERBASEURL=  
+
+
+https://datatables.net/examples/styling/bootstrap5.html
+  
+  

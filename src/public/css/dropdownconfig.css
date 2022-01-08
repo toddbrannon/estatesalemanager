@@ -1,0 +1,41 @@
+.dropdownconfig {
+
+}
+
+.dropdownconfig table .th-id {
+    width: 40px;
+}
+
+.dropdownconfig table .id {
+    width: 40px;
+}
+
+.dropdownconfig table .th-action-buttons {
+    width: 160px;
+}
+
+.dropdownconfig table .action-buttons {
+    display: flex;
+    justify-content: center;
+    width: 181px;
+}
+.dropdownconfig table {
+    font-size:18px;
+}
+.dropdownconfig .button {
+    cursor: pointer;    
+}
+
+.dropdownconfig .button.add {
+    font-size: 25px;
+}
+
+.dropdownconfig table .action-buttons .button {
+    padding: 5px 15px;
+    margin: 0 15px 0 0;
+}
+
+.dataTables_filter {
+    display: none;
+}
+

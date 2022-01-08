@@ -1,0 +1,28 @@
+<div id="<%= id %>" class="dropdownconfig">
+    <div class="button add" style="width: 100%;text-align:right;"><i class="bi bi-plus-circle"></i></div>
+    <table class="table table-striped table-bordered table-expandable mydatatable" style="width: 100%;">
+        <thead>
+            <tr>
+                <th scope="col" class="th-id">Id</th>
+                <th scope="col">Name</th>
+                <th scope="col" class="th-action-buttons">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <%- array.map(a=> ( 
+                            `<tr>
+                                <td class="id">
+                                    ${a.value}
+                                </td>
+                                <td>
+                                    ${a.name}
+                                </td>
+                                <td class="action-buttons">
+                                    <div class="button edit" dropdown-name="${a.table}" item-id="${a.value}"><i class="bi bi-pen"></i></div> 
+                                    <div class="button delete" dropdown-name="${a.table}" item-id="${a.value}"><i class="bi bi-trash"></i></div>
+                                </td>
+                            </tr>`
+            )).join('') %>
+        </tbody>
+    </table>
+</div>

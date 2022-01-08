@@ -1,0 +1,29 @@
+<%- include ('../partials/header', {styles:["/css/accordion.css","/css/dropdownconfig.css"], scripts:["/js/accordion.js","/js/dropdownconfig.js"], username: authUser.name}) -%>
+
+<div class="container container-header">
+  <div class="container py-5">
+    <div class="container heading-container">
+      <h1 class="display-1">True Legacy Homes Sale Manager</h1>
+      <h1 class="display-6">Dropdown Admin Configuration</h1>
+    </div>
+
+    <div style="display: flex;align-items:center;justify-content: space-between;">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/">Back</a></li>
+        </ol>
+      </nav>
+    </div>
+    <%- include ('../partials/accordion', {title: "Market", contentId: 'marketDropdownTable' }) -%>
+    <%- include ('../partials/dropdownconfig', {table: 'market', id: 'marketDropdownTable', array: locals.marketArray.map(m=> {
+      return {
+      name: m.market_name,
+      value: m.market_id,
+      table: "market"
+      }
+      })
+      }) -%>
+  </div>
+</div>
+
+<%- include ('../partials/footer') -%>

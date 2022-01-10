@@ -318,23 +318,100 @@ class IndexRouter {
 
     this.router.get('/admin', requiresAuth(), async (req, res) => {
       try {
-        let sql = `SELECT * from market;` 
-        // SELECT * from service; SELECT * from cashier; 
-        // SELECT * from salesPerson; SELECT * from pos_id; SELECT * from trailer_number; 
-        // SELECT * from opening_day; SELECT * from state;`;
+        let sql = `SELECT * from market;
+        SELECT * from service; SELECT * from cashier; 
+         SELECT * from salesPerson; SELECT * from pos_id; SELECT * from trailer_number; 
+        SELECT * from opening_day; SELECT * from state;`;
         pool.query(sql, (err, rows, results) => {
-          // console.log(rows);
+          console.log(rows);
           if (err)
             throw err;
           res.render('admin/dropdowns', {
             title: 'Admin Config',
             authUser: req['oidc'].user,
-            marketArray: rows,
+            marketArray: rows[0],
+            serviceArray: rows[1],
+            cashierArray: rows[2],
+            salesPersonArray: rows[3],
+            posIdArray: rows[4],
+            trailerNumberArray: rows[5],
+            openingDayArray: rows[6],
+            stateArray: rows[7],
           });
         })
 
       } catch (err) {
         console.log("Failed to insert data into input table")
+        console.log(err)
+        res.sendStatus(500)
+        return
+      }
+    })
+
+    this.router.get("/dropdown/:db", async (req, res) => {
+      try {
+        let sql = `SELECT * from ${req.params.db}`;
+        pool.query(sql, (err, rows, results) => {
+          if (err)
+            throw err;
+          res.status(200).json(rows)
+        });
+      } catch (err) {
+        res.sendStatus(500)
+        return
+      }
+    })
+
+    this.router.post("/dropdown", requiresAuth(), async (req, res) => {
+      try {
+        const { db, dbvalue, dbname, value, name } = req.body;
+        let sql = `INSERT ${db} (${[dbvalue]},${[dbname]}) VALUES('${value}','${name}')`;
+        pool.query(sql, (err, rows, results) => {
+          console.log(rows);
+          if (err)
+            throw err;
+          res.status(rows.affectedRows ? 200 : 500).json({ insertId: rows.insertId })
+        })
+      } catch (err) {
+        console.log("Failed to insert data into input table")
+        console.log(err)
+        res.sendStatus(500)
+        return
+      }
+    })
+
+    this.router.put("/dropdown", requiresAuth(), async (req, res) => {
+      try {
+        const { db, dbvalue, dbname, value, name } = req.body;
+        let sql = `UPDATE ${db} SET ${[dbname]}='${name}' WHERE ${[dbvalue]}='${value}' LIMIT 1`;
+        pool.query(sql, (err, rows, results) => {
+          console.log(rows);
+          if (err)
+            throw err;
+          res.status(rows.affectedRows ? 200 : 500).json({ insertId: rows.insertId })
+        })
+      } catch (err) {
+        console.log("Failed to update data into input table")
+        console.log(err)
+        res.sendStatus(500)
+        return
+      }
+    })
+
+    this.router.delete("/dropdown/:db/:dbvalue/:value", requiresAuth(), async (req, res) => {
+      try {
+        const { db, dbvalue, value } = req.params
+        if (db && dbvalue && value) {
+          let sql = `DELETE FROM ${db} WHERE ${[dbvalue]}='${value}' LIMIT 1`;
+          pool.query(sql, (err, rows, results) => {
+            console.log(rows);
+            if (err)
+              throw err;
+            res.status(rows.affectedRows ? 200 : 500).json()
+          })
+        }
+      } catch (err) {
+        console.log("Failed to delete data into input table")
         console.log(err)
         res.sendStatus(500)
         return

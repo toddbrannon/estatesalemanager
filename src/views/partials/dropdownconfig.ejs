@@ -1,5 +1,6 @@
-<div id="<%= id %>" class="dropdownconfig">
-    <div class="button add" style="width: 100%;text-align:right;"><i class="bi bi-plus-circle"></i></div>
+<div id="<%= table.db %>" class="dropdownconfig" name="<%= name %>" db="<%= table.db %>" dbvalue="<%= table.value %>" dbname="<%= table.name %>">
+    <div class="button add" style="width: 100%;text-align:right;" db="<%= table.db %>">
+        <i class="bi bi-plus-circle"></i></div>
     <table class="table table-striped table-bordered table-expandable mydatatable" style="width: 100%;">
         <thead>
             <tr>
@@ -18,11 +19,44 @@
                                     ${a.name}
                                 </td>
                                 <td class="action-buttons">
-                                    <div class="button edit" dropdown-name="${a.table}" item-id="${a.value}"><i class="bi bi-pen"></i></div> 
-                                    <div class="button delete" dropdown-name="${a.table}" item-id="${a.value}"><i class="bi bi-trash"></i></div>
+                                    <div class="button edit" db="${a.table}" item-id="${a.value}" item-name="${a.name}"><i class="bi bi-pen"></i></div> 
+                                    <div class="button delete" db="${a.table}" item-id="${a.value}"><i class="bi bi-trash"></i></div>
                                 </td>
                             </tr>`
             )).join('') %>
         </tbody>
     </table>
+</div>
+<div id="dropdownconfig-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 id="dropdownconfig-modal-title" class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="dropdownItemId" name="dropdownItemId"
+                         step="any" placeholder="" value="">
+                    <label for="dropdownItemId">Id</label>
+                    <div class="invalid-feedback">
+                        Please enter a value
+                    </div>
+                </div>
+                <br />
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="dropdownItemName" name="dropdownItemName"
+                        step="any" placeholder="" value="">
+                    <label for="dropdownItemName">Name</label>
+                    <div class="invalid-feedback">
+                        Please enter a value
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="dropdownconfig-modal-cancel" type="button" class="btn btn-default"
+                    data-dismiss="modal">Cancel</button>
+                <button id="dropdownconfig-modal-ok" type="button" class="btn btn-success">Ok</button>
+            </div>
+        </div>
+    </div>
 </div>

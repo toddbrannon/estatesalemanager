@@ -14,8 +14,8 @@
         </ol>
       </nav>
     </div>
-    <%- include ('../partials/accordion', {title: "Market", contentId: 'marketDropdownTable' }) -%>
-    <%- include ('../partials/dropdownconfig', {table: 'market', id: 'marketDropdownTable', array: locals.marketArray.map(m=> {
+    <%- include ('../partials/accordion', {title: "Market", contentId: 'market' }) -%>
+    <%- include ('../partials/dropdownconfig', {table: {db: 'market', value:'market_id', name:'market_name'}, name: 'Market', array: locals.marketArray.map(m=> {
       return {
       name: m.market_name,
       value: m.market_id,
@@ -23,6 +23,68 @@
       }
       })
       }) -%>
+
+    <%- include ('../partials/accordion', {title: "Service", contentId: 'service' }) -%>
+    <%- include ('../partials/dropdownconfig', {table: {db: 'service', value:'services_id', name:'services_name'}, name: 'Service', array: locals.serviceArray.map(m=> {
+  return {
+  name: m.services_name,
+  value: m.services_id,
+  table: "service"
+  }
+  })
+  }) -%>
+
+    <%- include ('../partials/accordion', {title: "Cashier", contentId: 'cashier' }) -%>
+    <%- include ('../partials/dropdownconfig', {table: {db: 'cashier', value:'cashier_id', name:'cashier_name'}, name: 'Cashier', array: locals.cashierArray.map(m=> {
+  return {
+  name: m.cashier_name,
+  value: m.cashier_id,
+  table: "cashier"
+  }
+  })
+  }) -%>
+
+    <%- include ('../partials/accordion', {title: "Sales Person", contentId: 'salesPerson' }) -%>
+    <%- include ('../partials/dropdownconfig', {table: {db: 'salesPerson', value:'salesperson_id', name:'salesperson_name'}, name: 'Sales Person', array: locals.salesPersonArray.map(m=> {
+  return {
+  name: m.salesperson_name,
+  value: m.salesperson_id,
+  table: "salesPerson"
+  }
+  })
+  }) -%>
+
+    <%- include ('../partials/accordion', {title: "POS ID", contentId: 'pos_id' }) -%>
+    <%- include ('../partials/dropdownconfig', {table: {db: 'pos_id', value:'pos_id_id', name:'pos_id'}, name: 'POS ID', array: locals.posIdArray.map(m=> {
+  return {
+  name: m.pos_id,
+  value: m.pos_id_id,
+  table: "pos_id"
+  }
+  })
+  }) -%>
+
+    <%- include ('../partials/accordion', {title: "Trailer #", contentId: 'trailer_number' }) -%>
+    <%- include ('../partials/dropdownconfig', {table: {db: 'trailer_number', value:'trailer_number_id', name:'trailer_number'}, name: 'Trailer #', array: locals.trailerNumberArray.map(m=> {
+  return {
+  name: m.trailer_number,
+  value: m.trailer_number_id,
+  table: "trailer_number"
+  }
+  })
+  }) -%>
+
+    <%- include ('../partials/accordion', {title: "Opening Day", contentId: 'opening_day' }) -%>
+    <%- include ('../partials/dropdownconfig', {table: {db: 'opening_day', value:'opening_day_id', name:'opening_day'}, name: 'Opening Day', array: locals.openingDayArray.map(m=> {
+  return {
+  name: m.opening_day,
+  value: m.opening_day_id,
+  table: "opening_day"
+  }
+  })
+  }) -%>
+
+
   </div>
 </div>
 

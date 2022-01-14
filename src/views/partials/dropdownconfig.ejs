@@ -4,7 +4,6 @@
     <table class="table table-striped table-bordered table-expandable mydatatable" style="width: 100%;">
         <thead>
             <tr>
-                <th scope="col" class="th-id">Id</th>
                 <th scope="col">Name</th>
                 <th scope="col" class="th-action-buttons">Actions</th>
             </tr>
@@ -12,15 +11,12 @@
         <tbody>
             <%- array.map(a=> ( 
                             `<tr>
-                                <td class="id">
-                                    ${a.value}
-                                </td>
                                 <td>
                                     ${a.name}
                                 </td>
                                 <td class="action-buttons">
                                     <div class="button edit" db="${a.table}" item-id="${a.value}" item-name="${a.name}"><i class="bi bi-pen"></i></div> 
-                                    <div class="button delete" db="${a.table}" item-id="${a.value}"><i class="bi bi-trash"></i></div>
+                                    <div class="button delete" db="${a.table}" item-id="${a.value}" item-name="${a.name}"><i class="bi bi-trash"></i></div>
                                 </td>
                             </tr>`
             )).join('') %>
@@ -35,16 +31,16 @@
             </div>
             <div class="modal-body">
                 <div class="form-floating">
-                    <input type="text" class="form-control" id="dropdownItemId" name="dropdownItemId"
+                    <input type="text" class="form-control" id="dropdownItemId" name="dropdownItemId" 
                          step="any" placeholder="" value="">
                     <label for="dropdownItemId">Id</label>
                     <div class="invalid-feedback">
                         Please enter a value
                     </div>
                 </div>
-                <br />
+                <!-- <br /> -->
                 <div class="form-floating">
-                    <input type="text" class="form-control" id="dropdownItemName" name="dropdownItemName"
+                    <input type="text" class="form-control" id="dropdownItemName" name="dropdownItemName" item-id=""
                         step="any" placeholder="" value="">
                     <label for="dropdownItemName">Name</label>
                     <div class="invalid-feedback">

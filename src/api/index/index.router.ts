@@ -323,7 +323,6 @@ class IndexRouter {
          SELECT * from salesPerson; SELECT * from pos_id; SELECT * from trailer_number; 
         SELECT * from opening_day; SELECT * from state;`;
         pool.query(sql, (err, rows, results) => {
-          console.log(rows);
           if (err)
             throw err;
           res.render('admin/dropdowns', {
@@ -348,14 +347,22 @@ class IndexRouter {
       }
     })
 
-    this.router.get("/dropdown/:db", async (req, res) => {
-      try {
-        let sql = `SELECT * from ${req.params.db}`;
+    async function getDropdownRowsFrom(tablename) {
+      return new Promise((resolve, reject) => {
+        let sql = `SELECT * from ${tablename}`;
         pool.query(sql, (err, rows, results) => {
           if (err)
-            throw err;
-          res.status(200).json(rows)
+            reject()
+          resolve(JSON.stringify(rows));
         });
+      })
+
+    }
+
+    this.router.get("/dropdown/:db", async (req, res) => {
+      try {
+        const rows = await getDropdownRowsFrom(req.params.db);
+        res.status(200).json(JSON.parse(rows as string))
       } catch (err) {
         res.sendStatus(500)
         return
@@ -364,10 +371,14 @@ class IndexRouter {
 
     this.router.post("/dropdown", requiresAuth(), async (req, res) => {
       try {
-        const { db, dbvalue, dbname, value, name } = req.body;
-        let sql = `INSERT ${db} (${[dbvalue]},${[dbname]}) VALUES('${value}','${name}')`;
+        const { db, dbvalue, dbname, name } = req.body;
+        //get next id --
+        const stringRows = await getDropdownRowsFrom(db);
+        const rows = JSON.parse(stringRows as string);
+        const nextId = rows[rows.length - 1][dbvalue] + 1;
+        // --
+        let sql = `INSERT ${db} (${[dbvalue]},${[dbname]}) VALUES('${nextId}','${name}')`;
         pool.query(sql, (err, rows, results) => {
-          console.log(rows);
           if (err)
             throw err;
           res.status(rows.affectedRows ? 200 : 500).json({ insertId: rows.insertId })
@@ -385,7 +396,6 @@ class IndexRouter {
         const { db, dbvalue, dbname, value, name } = req.body;
         let sql = `UPDATE ${db} SET ${[dbname]}='${name}' WHERE ${[dbvalue]}='${value}' LIMIT 1`;
         pool.query(sql, (err, rows, results) => {
-          console.log(rows);
           if (err)
             throw err;
           res.status(rows.affectedRows ? 200 : 500).json({ insertId: rows.insertId })
@@ -404,7 +414,6 @@ class IndexRouter {
         if (db && dbvalue && value) {
           let sql = `DELETE FROM ${db} WHERE ${[dbvalue]}='${value}' LIMIT 1`;
           pool.query(sql, (err, rows, results) => {
-            console.log(rows);
             if (err)
               throw err;
             res.status(rows.affectedRows ? 200 : 500).json()

@@ -8,7 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 dropdownconfig.getAttribute('db'),
                 dropdownconfig.getAttribute('dbvalue'),
                 dropdownconfig.getAttribute('dbname'),
-                elem.getAttribute('item-id'));
+                elem.getAttribute('item-id'),
+                elem.getAttribute('item-name'));
         })
     })
     //edit
@@ -53,12 +54,12 @@ document.addEventListener('DOMContentLoaded', () => {
     })
 
     function showAddDropdownItem(name, db, dbvalue, dbname) {
-        document.querySelector('label[for="dropdownItemId"]').innerText= dbvalue;
-        document.querySelector('label[for="dropdownItemName"]').innerText= dbname;
+        document.querySelector('label[for="dropdownItemId"]').innerText= name;
+        document.querySelector('label[for="dropdownItemName"]').innerText= name;
         document.querySelector('#dropdownItemName').value= '';
         document.querySelector('#dropdownItemId').value= '';
         document.querySelector('#dropdownItemName').value= '';
-        document.querySelector('#dropdownItemId').parentElement.style.display = 'block';
+        document.querySelector('#dropdownItemId').parentElement.style.display = 'none';
         document.querySelector('#dropdownItemName').parentElement.style.display = 'block';
         document.querySelector('#dropdownItemId').disabled = false;
 
@@ -70,13 +71,13 @@ document.addEventListener('DOMContentLoaded', () => {
         $('#dropdownconfig-modal').modal('show');
     }
 
-    function showDeleteDropdownItem(name, db, dbvalue, dbname, value) {
+    function showDeleteDropdownItem(name, db, dbvalue, dbname, value, s) {
         document.querySelector('#dropdownItemId').value= '';
         document.querySelector('#dropdownItemName').value= '';
         document.querySelector('#dropdownItemId').parentElement.style.display = 'none';
         document.querySelector('#dropdownItemName').parentElement.style.display = 'none';
 
-        document.querySelector('#dropdownconfig-modal-title').innerText = `Delete ${name} Id ${value}?`;
+        document.querySelector('#dropdownconfig-modal-title').innerText = `Delete ${name}: ${s}?`;
         document.querySelector('#dropdownconfig-modal-ok').setAttribute('action', 'delete');
         document.querySelector('#dropdownconfig-modal-ok').setAttribute('db', db);
         document.querySelector('#dropdownconfig-modal-ok').setAttribute('dbvalue', dbvalue);
@@ -86,9 +87,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function showEditDropdownItem(name, db, dbvalue, dbname, value, s) {
+        document.querySelector('label[for="dropdownItemName"]').innerText= name;
         document.querySelector('#dropdownItemId').value= value;
         document.querySelector('#dropdownItemName').value= s;
-        document.querySelector('#dropdownItemId').parentElement.style.display = 'block';
+        document.querySelector('#dropdownItemId').parentElement.style.display = 'none';
         document.querySelector('#dropdownItemName').parentElement.style.display = 'block';
         document.querySelector('#dropdownItemId').disabled = true;
 
@@ -107,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ db, dbvalue, dbname, value, name })
+            body: JSON.stringify({ db, dbvalue, dbname, name })
         })
             .then(data => {
                 if(data.ok){

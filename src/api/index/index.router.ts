@@ -321,7 +321,7 @@ class IndexRouter {
         let sql = `SELECT * from market;
         SELECT * from service; SELECT * from cashier; 
          SELECT * from salesPerson; SELECT * from pos_id; SELECT * from trailer_number; 
-        SELECT * from opening_day; SELECT * from state;`;
+        SELECT * from opening_day order by opening_day_id;`;
         pool.query(sql, (err, rows, results) => {
           if (err)
             throw err;
@@ -347,9 +347,9 @@ class IndexRouter {
       }
     })
 
-    async function getDropdownRowsFrom(tablename) {
+    async function getDropdownRowsFrom(tablename, sqlWhereOrder = '') {
       return new Promise((resolve, reject) => {
-        let sql = `SELECT * from ${tablename}`;
+        let sql = `SELECT * from ${tablename} ${sqlWhereOrder}`;
         pool.query(sql, (err, rows, results) => {
           if (err)
             reject()
@@ -373,11 +373,12 @@ class IndexRouter {
       try {
         const { db, dbvalue, dbname, name } = req.body;
         //get next id --
-        const stringRows = await getDropdownRowsFrom(db);
+        const stringRows = await getDropdownRowsFrom(db, `order by ${dbvalue} desc limit 1`);
         const rows = JSON.parse(stringRows as string);
-        const nextId = rows[rows.length - 1][dbvalue] + 1;
+        const nextId = rows[0][dbvalue] + 1;
         // --
         let sql = `INSERT ${db} (${[dbvalue]},${[dbname]}) VALUES('${nextId}','${name}')`;
+
         pool.query(sql, (err, rows, results) => {
           if (err)
             throw err;
@@ -395,6 +396,7 @@ class IndexRouter {
       try {
         const { db, dbvalue, dbname, value, name } = req.body;
         let sql = `UPDATE ${db} SET ${[dbname]}='${name}' WHERE ${[dbvalue]}='${value}' LIMIT 1`;
+
         pool.query(sql, (err, rows, results) => {
           if (err)
             throw err;
@@ -413,6 +415,7 @@ class IndexRouter {
         const { db, dbvalue, value } = req.params
         if (db && dbvalue && value) {
           let sql = `DELETE FROM ${db} WHERE ${[dbvalue]}='${value}' LIMIT 1`;
+
           pool.query(sql, (err, rows, results) => {
             if (err)
               throw err;

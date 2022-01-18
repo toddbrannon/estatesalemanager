@@ -11,7 +11,8 @@ export const saleToInvoice = sale => {
     const transactionsOpeningDay = isNumber(sale.transactionsOpeningDay) ? sale.transactionsOpeningDay : (sale.transactionsOpeningDay.trim() === '' ? '0' : 'NaN')
     const transactionTotal = isNumber(sale.transactionTotal) ? sale.transactionTotal : (sale.transactionTotal.trim() === '' ? '0' : 'NaN')
 
-    const totalTrueLegacyFee = parseFloat(sale.minimumActual) + parseFloat(sale.commissionRate)
+    const commissionRateTotal = parseFloat(`${sale.commissionRate/100 * sale.grossSalesActualClover}`)
+    const totalTrueLegacyFee = parseFloat(sale.minimumActual) + commissionRateTotal
     const netShareToClient = parseFloat(sale.grossSalesActualClover) - totalTrueLegacyFee
     const grossSalesEntireSale = parseFloat(sale.grossSalesCreditDebit || sale.grossSalesCash)
 
@@ -28,7 +29,7 @@ export const saleToInvoice = sale => {
             .substring(1).trim(),
         grossProceeds: toCurrency(sale.grossSalesActualClover),
         trueLegacyFeeMinimum: toCurrency(sale.minimumActual),
-        trueLegacyFee: toCurrency(sale.commissionRate),
+        trueLegacyFee: toCurrency(`${sale.commissionRate/100 * sale.grossSalesActualClover}`),
         totalTrueLegacyFee: toCurrency(`${totalTrueLegacyFee}`),
         netShareToClient: toCurrency(`${netShareToClient}`),
         disposal: toCurrency(sale.disposalFee),
@@ -42,5 +43,6 @@ export const saleToInvoice = sale => {
 
         grossSalesEntireSale: toCurrency(`${grossSalesEntireSale}`),
         avePurchaseAmountEntireSale: toCurrency(`${grossSalesEntireSale / parseInt(transactionTotal)}`),
+
     }
 }

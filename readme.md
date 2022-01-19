@@ -1,4 +1,4 @@
-Node/Express/MySQL web application for True Legacy Homes (Estate Sales)
+Node/Express/MySQL/MongoDB web application for entering Estate Sale Data
 Created 8/8/2021
 ====================================================================
 ====================================================================
